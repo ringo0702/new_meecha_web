@@ -31,22 +31,14 @@ header p{
     width: 100px;
 }
 
-
-
 #setting_img {
-    background-color: #dbfff3a9;
-
     border-radius: 40px;
     position: fixed;
     width: 13vw;
-    top: 2vh;
+    top: 3vh;
     right: 7vw;
     z-index: 1;
-    
-
-
 }
-
 
 .button_radius {
     display: flex;
@@ -68,11 +60,11 @@ header p{
 }
 
 #user_info img {
-    width: 13vw;
-    height: 13vw;
+    max-width: 20vw;
     border-radius: 50%;
-    margin-right: 10px;
 }
+
+
 
 
 .user_search_area {

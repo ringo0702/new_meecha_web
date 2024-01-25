@@ -20,16 +20,14 @@ toastr.options = {
 //マップ設定
 const main_map = L.map('show_map',{ zoomControl: false })
 
-// var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//     attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-// });
-
-
-
-var tileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-	subdomains: ['mt0','mt1','mt2','mt3'],
-	attribution: "<a href='https://developers.google.com/maps/documentation' target='_blank'>Google Map</a>",
+var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
 });
+
+// var tileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+// 	subdomains: ['mt0','mt1','mt2','mt3'],
+// 	attribution: "<a href='https://developers.google.com/maps/documentation' target='_blank'>Google Map</a>",
+// });
 
 
 tileLayer.addTo(main_map);
@@ -202,7 +200,7 @@ function success(pos) {
         myself_marker.setLatLng([crd.latitude,crd.longitude])
     }
 
-    if (auto_change_map_check.checked) {
+    if (true) {
         main_map.setView([crd.latitude,crd.longitude],main_map.getZoom());
     }
 
