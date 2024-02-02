@@ -162,20 +162,6 @@ function show_friend(result) {
     clear_child_elems(friend_show_area);
 }
 
-//サーバーにコマンドを送信する
-function send_command(command,data) {
-    if (ws_connected) {
-        var packet = {
-            "command":command,
-            "data":data
-        }
-        
-        var send_data = JSON.stringify(packet);
-
-        ws_conn.send(send_data);
-    }
-}
-
 //フレンド検索結果を削除する
 function clear_friend_search(evt) {
     clear_child_elems(search_result_area);
@@ -183,7 +169,9 @@ function clear_friend_search(evt) {
 
 
 //受信済みフレンドリクエストを取得する
-function get_friend_request(evt) {
+async function get_friend_request(evt) {
+    await get_recved_requests();
+
     recved_request_area.classList.toggle("is-show");
 }
 
@@ -304,3 +292,59 @@ window.addEventListener("load",function(evt) {
     //ゆーざー情報取得
     get_userinfo();
 })
+
+//リクエストを追加
+function add_request(requestid,name) {
+    //追加するdiv
+    const adddiv = document.createElement("div");
+    adddiv.id = requestid;
+
+    //divに書き込む
+    adddiv.insertAdjacentHTML("beforeend",`
+        <div class="recved_request">
+            <p class="sent_request_title">mattuu2</p>
+            <button id="accept_btn" class="accept_request_btn">承認</button>
+            <button id="reject_btn" class="reject_request_btn">拒否</button>
+        </div>
+    `);
+
+    //ボタン取得
+    const acceptbtn = adddiv.getElementById("accept_btn");
+    const rejectbtn = adddiv.getElementById("reject_btn");
+
+    //イベント登録
+    acceptbtn.addEventListener("click",async function(evt) {
+        //イベントキャンセル
+        evt.preventDefault();
+
+        //承認
+        const req = await AccessPost(accept_request_url,{"requestid":requestid});
+
+        //200以外
+        if (req.status != 200) {
+            alert("承認に失敗しました");
+            return;
+        }
+
+        alert("フレンドリクエストを承認しました");
+    })
+
+    //イベント登録
+    rejectbtn.addEventListener("click",async function(evt) {
+        //イベントキャンセル
+        evt.preventDefault();
+
+        //拒否
+        const req = await AccessPost(reject_request_url,{"requestid":requestid});
+
+        //200以外
+        if (req.status != 200) {
+            alert("拒否に失敗しました");
+            return;
+        }
+
+        alert("フレンドリクエストを拒否しました");
+    })
+    //追加
+    sended_request_show_area.appendChild(adddiv);
+}

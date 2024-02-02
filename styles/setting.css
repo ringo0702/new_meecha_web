@@ -162,6 +162,12 @@ button {
     border-bottom: #000 1px dotted;
 }
 
+.sended_request_label {
+    margin: 0 auto;
+    padding: 20px;
+    border-bottom: 2px solid #5da38ccc;
+}
+
 .recved_request_area * {
     margin: 3px;
 }

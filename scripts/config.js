@@ -1,10 +1,10 @@
 //設定ファイル
 
 //サーバIP
-const ServerIp = "100.107.190.42:12222";
+const ServerIp = "100.111.29.70:12222";
 
 //サーバURL
-const server_url = "https://100.107.190.42:12222";
+const server_url = "https://" + ServerIp;
 
 //ログインURL
 const login_url = server_url + "/auth/login";
@@ -45,8 +45,17 @@ const friend_search_url = server_url + "/friend/search";
 //リクエスト送信URL
 const send_request_url = server_url + "/friend/request";
 
-//リクエスト送信URL
-const get_send_url = server_url + "/friend/get_sent";
+//送信済み取得URL
+const get_sent_url = server_url + "/friend/get_sent";
+
+//受信済み取得URL
+const get_recved_url = server_url + "/friend/get_recved";
+
+//リクエスト承認URL
+const accept_request_url = server_url + "/friend/accept_request";
+
+//リクエスト拒否URL
+const reject_request_url = server_url + "/friend/reject_request";
 
 //アイコンURL取得
 function GetIconUrl(userid) {
