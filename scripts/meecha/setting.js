@@ -169,8 +169,16 @@ function clear_friend_search(evt) {
 
 
 //受信済みフレンドリクエストを取得する
-async function get_friend_request(evt) {
-    await get_recved_requests();
+function get_friend_request(evt) {
+    clear_child_elems(recved_request_show_area);
+
+    //受信済みリクエストを取得
+    get_recved_requests().then((result) => {
+        //受信済みリクエストを表示
+        for (let requestid in result) {
+            add_request(requestid,result[requestid].name);
+        }
+    });
 
     recved_request_area.classList.toggle("is-show");
 }
@@ -309,8 +317,8 @@ function add_request(requestid,name) {
     `);
 
     //ボタン取得
-    const acceptbtn = adddiv.getElementById("accept_btn");
-    const rejectbtn = adddiv.getElementById("reject_btn");
+    const acceptbtn = adddiv.querySelector("#accept_btn");
+    const rejectbtn = adddiv.querySelector("#reject_btn");
 
     //イベント登録
     acceptbtn.addEventListener("click",async function(evt) {
@@ -346,5 +354,5 @@ function add_request(requestid,name) {
         alert("フレンドリクエストを拒否しました");
     })
     //追加
-    sended_request_show_area.appendChild(adddiv);
+    recved_request_show_area.appendChild(adddiv);
 }
