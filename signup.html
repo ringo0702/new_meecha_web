@@ -31,7 +31,7 @@
                     </li>
 
                     <li class="nav-item d-flex flex-row">
-                        <a class="nav-link mx-5" href="" class="nav-link">サインイン</a>
+                        <a class="nav-link mx-5" href="./login.html" class="nav-link">サインイン</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link mx-5" href="" class="nav-link">サインアップ</a>
@@ -44,7 +44,7 @@
 
     <h1 class="w-100 text-center">サインアップ</h1>
 
-    <form class="signup" id="signup_form" method="post" action="">
+    <form class="signup" id="signup_form">
         <div class="w-75 mx-auto my-4">
             <label class="form-label" for="id_username">ユーザー名</label>
             <input type="text" name="username" placeholder="ユーザー名" autocomplete="username" minlength="1" maxlength="150"
@@ -66,8 +66,13 @@
                 サインアップ
             </button>
         </div>
-
     </form>
+
+    <script src="./scripts/config.js"></script>
+    <script src="./scripts/auth/util.js"></script>
+    <script src="./scripts/auth/login.js"></script>
+    <script src="./scripts/auth/signup.js"></script>
+    <script src="./scripts/auth/signup_main.js"></script>
 </body>
 
 </html>
