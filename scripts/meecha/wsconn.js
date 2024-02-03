@@ -67,7 +67,7 @@ function on_recved(data) {
         case "Auth_Complete":
             //接続済みにする
             ws_connected = true;
-            toastr["success"]("通知です", "通知")
+            toastr["success"]("接続しました", "通知")
             break;
         case "Location_Token":
             //トークンが来たときに位置情報を送る
@@ -76,6 +76,12 @@ function on_recved(data) {
                 "lat" : myself_position[0],
                 "lng" : myself_position[1],
             });
+            break;
+        case "recv_request":
+            toastr["info"](`${data.Payload}さんからフレンドリクエストを受信しました`, "通知")
+            break;
+        case "accept_request":
+            toastr["info"](`${data.Payload}さんとフレンドになりました`, "通知")
             break;
         case "Notify_Disconnect":
             switch (data.Payload["code"]) {

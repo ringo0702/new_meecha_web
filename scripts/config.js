@@ -57,6 +57,12 @@ const accept_request_url = server_url + "/friend/accept_request";
 //リクエスト拒否URL
 const reject_request_url = server_url + "/friend/reject_request";
 
+//フレンド削除URL
+const remove_friend_url = server_url + "/friend/remove_friend";
+
+//フレンド削除URL
+const cancel_request_url = server_url + "/friend/cancel_request";
+
 //アイコンURL取得
 function GetIconUrl(userid) {
     //アイコンのURLを返す

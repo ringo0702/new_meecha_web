@@ -6,7 +6,7 @@ async function get_all_friends() {
     //JSONに変換
     const friends = await res.json();
 
-    console.log(friends);
+    return friends;
 }
 
 //送信済みフレンドリクエストを取得する
@@ -17,9 +17,7 @@ async function get_sent_requests() {
     //JSONに変換
     const sent_requests = await res.json();
 
-    for (const requestid in sent_requests) {
-        console.log(requestid);
-    }
+    return sent_requests;
 }
 
 
