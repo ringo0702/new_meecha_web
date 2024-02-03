@@ -148,32 +148,94 @@ function clear_friend_search(evt) {
     clear_child_elems(search_result_area);
 }
 
-
 //受信済みフレンドリクエストを取得する
-function get_friend_request(evt) {
+function refresh_recved_request() {
+    //受信済みリクエストをリセット
     clear_child_elems(recved_request_show_area);
 
-    //受信済みリクエストを取得
     get_recved_requests().then((result) => {
         //受信済みリクエストを表示
         for (let requestid in result) {
-            add_request(requestid,result[requestid].name);
+            add_recved_request(requestid,result[requestid].name);
         }
     });
+}
+
+//受信済みフレンドリクエストを取得する
+function get_friend_request(evt) {
+    //受信済みリクエストを取得
+    refresh_recved_request();
 
     recved_request_area.classList.toggle("is-show");
 }
 
 //送信済みフレンドリクエストを取得する
+function refresh_sent() {
+    clear_child_elems(sended_request_show_area);
+
+    get_sent_requests().then((result) => {
+        //送信済みリクエストを表示
+        for (let requestid in result) {
+            add_sent_request(requestid,result[requestid].name,result[requestid].uid);
+        }
+    });
+}
+//送信済みフレンドリクエストを取得する
 async function get_sended_friend_request(evt) {
-    await get_sent_requests();
+    refresh_sent();
 
     sended_request_area.classList.toggle("is-show");
 }
 
+function refresh_friend() {
+    get_all_friends().then((result) => {
+        clear_child_elems(friend_show_area);
+
+        for (let key in result) {
+            console.log(result[key]);
+            //追加するdiv
+            const adddiv = document.createElement("div");
+            adddiv.id = key;
+
+            const dirty = `
+                <div class="friend_data_area">
+                    <img class="user_icon" src="${GetIconUrl(result[key].aiteid)}">
+                    <p class="username_area">${result[key].aite}</p>
+                    <button id="remove_button" class="friend_btn">削除</button>
+                </div>
+            `
+            const clean = DOMPurify.sanitize(dirty, { USE_PROFILES: { html: true } });
+            //divに書き込む
+            adddiv.insertAdjacentHTML("beforeend",clean);
+
+            adddiv.querySelector("#remove_button").addEventListener("click",async function(evt) {
+                //イベントキャンセル
+                evt.preventDefault();
+
+                //削除
+                const req = await AccessPost(remove_friend_url,{"Friendid":key});
+
+                //200以外
+                if (req.status != 200) {
+                    toastr["error"]("削除に失敗しました");
+                    return;
+                }
+
+                //通知表示
+                toastr["success"]("フレンドを削除しました");
+
+                refresh_friend();
+            })
+
+            //追加
+            friends_show_area.appendChild(adddiv);
+        }
+    });
+}
+
 //フレンド一覧を取得する
 async function get_friends(evt) {
-    await get_all_friends();
+    refresh_friend();
 
     pupup_friends_show_area.classList.toggle("is-show");
 
@@ -229,7 +291,17 @@ function add_search_result(uid,name) {
         //ID取得
         const sendid = evt.target.id;
 
-        await AccessPost(send_request_url,{"Targetid":sendid});
+        //送信
+        const req = await AccessPost(send_request_url,{"Targetid":sendid});
+
+        //200以外
+        if (req.status != 200) {
+            toastr["error"]("送信に失敗しました");
+            return;
+        }
+
+        //通知表示
+        toastr["success"]("フレンドリクエストを送信しました");
     })
 
     search_result_area.appendChild(result_div);
@@ -284,19 +356,21 @@ window.addEventListener("load",function(evt) {
 })
 
 //リクエストを追加
-function add_request(requestid,name) {
+function add_recved_request(requestid,name) {
     //追加するdiv
     const adddiv = document.createElement("div");
     adddiv.id = requestid;
 
-    //divに書き込む
-    adddiv.insertAdjacentHTML("beforeend",`
-        <div class="recved_request">
-            <p class="sent_request_title">mattuu2</p>
+    const dirty = `
+        <div class="data_area">
+            <p class="username_area">${name}</p>
             <button id="accept_btn" class="accept_request_btn">承認</button>
             <button id="reject_btn" class="reject_request_btn">拒否</button>
         </div>
-    `);
+    `
+    const clean = DOMPurify.sanitize(dirty, { USE_PROFILES: { html: true } });
+    //divに書き込む
+    adddiv.insertAdjacentHTML("beforeend",clean);
 
     //ボタン取得
     const acceptbtn = adddiv.querySelector("#accept_btn");
@@ -312,11 +386,13 @@ function add_request(requestid,name) {
 
         //200以外
         if (req.status != 200) {
-            alert("承認に失敗しました");
+            toastr["error"]("承認に失敗しました");
             return;
         }
 
-        alert("フレンドリクエストを承認しました");
+        toastr["success"]("フレンドリクエストを承認しました");
+
+        refresh_recved_request();
     })
 
     //イベント登録
@@ -329,12 +405,60 @@ function add_request(requestid,name) {
 
         //200以外
         if (req.status != 200) {
-            alert("拒否に失敗しました");
+            toastr["error"]("拒否に失敗しました");
             return;
         }
 
-        alert("フレンドリクエストを拒否しました");
+        //通知表示
+        toastr["success"]("フレンドリクエストを拒否しました");
+
+        //リクエスト欄更新
+        refresh_recved_request();
     })
     //追加
     recved_request_show_area.appendChild(adddiv);
+}
+
+
+//リクエストを追加
+function add_sent_request(requestid,name,uid) {
+    //追加するdiv
+    const adddiv = document.createElement("div");
+    adddiv.id = requestid;
+
+    const dirty = `
+        <div class="request_data_area">
+            <img class="user_icon" src="${GetIconUrl(uid)}">
+            <p class="username_area">${name}</p>
+            <button id="cancel_btn" class="friend_btn">取り消し</button>
+        </div>
+    `
+    const clean = DOMPurify.sanitize(dirty, { USE_PROFILES: { html: true } });
+    //divに書き込む
+    adddiv.insertAdjacentHTML("beforeend",clean);
+
+    //ボタン取得
+    const acceptbtn = adddiv.querySelector("#cancel_btn");
+
+    //イベント登録
+    acceptbtn.addEventListener("click",async function(evt) {
+        //イベントキャンセル
+        evt.preventDefault();
+
+        //承認
+        const req = await AccessPost(cancel_request_url,{"requestid":requestid});
+
+        //200以外
+        if (req.status != 200) {
+            toastr["error"]("キャンセルに失敗しました");
+            return;
+        }
+
+        toastr["success"]("リクエストをキャンセルしました");
+
+        refresh_sent();
+    })
+
+    //追加
+    sended_request_show_area.appendChild(adddiv);
 }
