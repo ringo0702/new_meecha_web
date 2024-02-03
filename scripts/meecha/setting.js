@@ -1,22 +1,3 @@
-//トースター初期化
-toastr.options = {
-    "closeButton": true,
-    "debug": false,
-    "newestOnTop": true,
-    "progressBar": true,
-    "positionClass": "toast-top-center",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "3000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-}
-
 function change_distance(evt) {
     const num = evt.target.selectedIndex;
 	const select_val = evt.target.options[num].value;
@@ -279,6 +260,7 @@ async function get_userinfo() {
         const userid = userinfo["userid"];
         //アイコンURL
         user_icon.src = GetIconUrl(userid);
+        user_icon.style.display = "";
 
         //ユーザ名設定
         user_name.textContent = userinfo["name"];
