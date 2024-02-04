@@ -1,8 +1,17 @@
-function change_distance(evt) {
+async function change_distance(evt) {
     const num = evt.target.selectedIndex;
 	const select_val = evt.target.options[num].value;
+    
+    //通知距離設定
+    const req = await AccessPost(set_notify_distance_url,{"distance":select_val});
 
-    send_command("update_distance",{"distance" : select_val});
+    if (req.status != 200) {
+        toastr["error"]("通知距離設定に失敗しました");
+        return;
+    }
+
+    toastr["success"]("通知距離を設定しました");
+    show_distance(select_val);
 }
 
 function show_distance(distance) {
@@ -361,6 +370,23 @@ async function get_userinfo() {
 
             add_pin(pointid,point_data["Latitude"], point_data["Longitude"],point_data["Distance"]);
         }
+
+        //通知距離取得
+        const distance_req = await AccessPost(get_notify_distance_url,{});
+
+        //200以外
+        if (distance_req.status != 200) {
+            toastr["warning"]("通知距離取得に失敗しました");
+            return;
+        }
+
+        //通知距離
+        const distance = await distance_req.json();
+
+        //通知距離設定
+        show_distance(distance["distance"]);
+
+        return;
 
     } catch (error) {
         //エラー処理

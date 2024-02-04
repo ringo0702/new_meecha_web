@@ -69,6 +69,12 @@ const save_ignore_point_url = server_url + "/location/save_ignore_point";
 //無視リスト保存URL
 const load_ignore_point_url = server_url + "/location/load_ignore_point";
 
+//通知距離設定URL
+const set_notify_distance_url = server_url + "/location/set_notify_distance";
+
+//通知距離取得URL
+const get_notify_distance_url = server_url + "/location/get_notify_distance";
+
 //アイコンURL取得
 function GetIconUrl(userid) {
     //アイコンのURLを返す

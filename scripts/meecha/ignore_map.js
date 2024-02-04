@@ -88,7 +88,6 @@ function add_pin(add_pinid, lat, lng,distance = 3000) {
         //もともと選択されているか
         if (selectid != "") {
             //青に戻す
-            console.log(selectid);
             try {
                 map_pins[selectid]["point"].setIcon(L.spriteIcon('blue'));
             } catch (error) {
