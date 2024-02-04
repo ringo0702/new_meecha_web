@@ -7,10 +7,13 @@ let ws_connected = false;
 //Flutter Support
 let is_flutter = false;
 
-function send_command(Command,payload,seriarize = true) {
-    //送信するデータ
-    let send_payload = payload;
+//イベント用div
+const ws_event_div = document.createElement("div");
 
+//イベント名
+const ws_event_key = "ws_msg_event";
+
+function send_command(Command,payload,seriarize = true) {
     //シリアライズするか
     if (seriarize) {
         //Jsonをシリアライズ
@@ -56,7 +59,26 @@ function connect_ws() {
             return;
         }
 
-        //接続済み解除
+        toastr.error('通信が切断されました<br>通知をタップすると再接続します',"通知",{
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": false,
+            "onclick": function(evt){
+                //再接続
+                connect_ws();
+            },
+            "showDuration": "300",
+            "timeOut": "0",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        });
+        //接続済み解除  
         ws_connected = false;
     }
 }
@@ -78,10 +100,36 @@ function on_recved(data) {
             });
             break;
         case "recv_request":
-            toastr["info"](`${data.Payload}さんからフレンドリクエストを受信しました`, "通知")
+            toastr.info(`${data.Payload}さんからフレンドリクエストを受信しました`, "通知",{
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "showDuration": "300",
+                "timeOut": "0",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            })
             break;
         case "accept_request":
-            toastr["info"](`${data.Payload}さんとフレンドになりました`, "通知")
+            toastr.info(`${data.Payload}さんとフレンドになりました`, "通知",{
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-center",
+                "preventDuplicates": false,
+                "showDuration": "300",
+                "timeOut": "0",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            })
             break;
         case "Notify_Disconnect":
             switch (data.Payload["code"]) {
@@ -92,7 +140,9 @@ function on_recved(data) {
             }
             break;
         default:
-            console.log(data);
+            //イベント作成
+            const event = new CustomEvent(ws_event_key, { detail: data });
+            ws_event_div.dispatchEvent(event);
             break;
     }
 }

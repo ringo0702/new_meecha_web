@@ -1,3 +1,5 @@
+
+
 //ユーザアイコン
 const usericon = document.getElementById("usericon");
 
@@ -33,3 +35,15 @@ async function get_userinfo() {
 }
 
 get_userinfo();
+
+ws_event_div.addEventListener(ws_event_key, function (evt) {
+    const payload = evt.detail["Payload"];
+    switch (evt.detail["Command"]) {
+        case "near_friend": {
+            console.log(payload);
+            if (payload["is_first"]) {
+                toastr.info(`${payload["unane"]}さんが近くにいます`, "通知", {});
+            }
+        }
+    };
+})
