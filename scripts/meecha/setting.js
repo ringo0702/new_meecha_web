@@ -342,6 +342,26 @@ async function get_userinfo() {
 
         //ユーザid設定
         UserID = userinfo["userid"];
+
+        //除外ポイント取得
+        const ignore_req = await AccessPost(load_ignore_point_url,{});
+
+        //200以外
+        if (ignore_req.status != 200) {
+            toastr["warning"]("除外ポイント取得に失敗しました");
+            return;
+        }
+
+        //除外ポイント
+        const ignore_point = await ignore_req.json();
+
+        for (let pointid in ignore_point) {
+            //除外マーカー作成
+            const point_data = ignore_point[pointid];
+
+            add_pin(pointid,point_data["Latitude"], point_data["Longitude"],point_data["Distance"]);
+        }
+
     } catch (error) {
         //エラー処理
         console.log(error);
@@ -470,5 +490,5 @@ ignore_setting_button.addEventListener("click",function(evt){
     //イベントキャンセル
     evt.preventDefault();
 
-    ignore_map_area.style.display = "block";
+    ignore_map_area.style.visibility = "visible";
 })

@@ -5,6 +5,9 @@
 
     width: 100vw;
     height: 100vh;
+    visibility: hidden;
+
+    z-index: 10000;
 }
 
 .ignore_map_controll {

@@ -63,6 +63,12 @@ const remove_friend_url = server_url + "/friend/remove_friend";
 //フレンド削除URL
 const cancel_request_url = server_url + "/friend/cancel_request";
 
+//無視リスト保存URL
+const save_ignore_point_url = server_url + "/location/save_ignore_point";
+
+//無視リスト保存URL
+const load_ignore_point_url = server_url + "/location/load_ignore_point";
+
 //アイコンURL取得
 function GetIconUrl(userid) {
     //アイコンのURLを返す

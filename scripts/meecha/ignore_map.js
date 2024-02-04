@@ -48,9 +48,8 @@ addpin_btn.addEventListener("click", function (evt) {
 })
 
 //ピンを追加する関数
-function add_pin(add_pinid, lat, lng) {
+function add_pin(add_pinid, lat, lng,distance = 3000) {
     //デフォルト距離
-    const distance = 3000;
 
     //除外マーカー作成
     const ignore_point = L.marker([lat, lng], {
@@ -76,10 +75,6 @@ function add_pin(add_pinid, lat, lng) {
         var marker = evt.target;
 
         const point = marker._latlng;
-
-        //円を移動
-        console.log(point.lat);
-        console.log(point.lng)
     });
 
     //マーカー登録
@@ -172,5 +167,28 @@ const ignore_map_area = document.getElementById("ignore_map_area");
 const savepin_btn = document.getElementById("savepin_btn");
 
 savepin_btn.addEventListener("click",function(evt){
-    ignore_map_area.style.display = "none";
+    ignore_map_area.style.visibility = "hidden";
+
+    let result_list = [];
+
+    //登録情報を取得
+    for (const key in map_pins) {
+        const point = map_pins[key]["point"].getLatLng();
+        result_list.push({
+            "lat": point.lat,
+            "lng": point.lng,
+            "distance": map_pins[key]["distance"]
+        });
+    }
+
+    //保存
+    AccessPost(save_ignore_point_url,{"points" : JSON.stringify(result_list)}).then(async (result) => {
+        if (result.status == 200) {
+            toastr["success"]("保存しました");
+        } else {
+            toastr["error"]("保存に失敗しました");
+        }
+    }).catch((err) => {
+        console.log(err);
+    });;
 })
