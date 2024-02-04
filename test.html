@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: space-around;">
+        <button id="addpin_btn">ピン追加</button>
+        <button id="removepin_btn">ピン削除</button>
+        <select name="distances" class="distanec_select" id="ignore_distances_select">
+            <option hidden>ピンを選択してください</option>
+            <option value="5"> 5 m</option>
+            <option value="10"> 10 m</option>
+            <option value="50"> 50 m</option>
+            <option value="250"> 250 m</option>
+            <option value="500"> 500 m</option>
+            <option value="1000">1000 m</option>
+            <option value="1500">1500 m</option>
+            <option value="2000">2000 m</option>
+            <option value="2500">2500 m</option>
+            <option value="3000">3000 m</option>
+            <option value="3500">3500 m</option>
+            <option value="4000">4000 m</option>
+            <option value="4500">4500 m</option>
+            <option value="5000">5000 m</option>
+        </select>
+
+        <button id="addpin_btn">保存</button>
+    </div>
+    <div class="container">
+        <div id="show_map" class="map_area"></div>
+    </div>
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .map_area {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="./styles/leaflet.css">
+    <script src="./scripts/leaflet/leaflet.js"></script>
+    <script src="./scripts/leaflet/leaflet.sprite.js"></script>
+
+    <style>
+        .icon-red {
+            /* icon-redは最初に指定したクラス名 */
+            filter: hue-rotate(150deg);
+        }
+    </style>
+    <script>
+        const main_map = L.map('show_map', { zoomControl: false })
+
+        //レイヤー設定
+        /*
+        var tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+        });
+        */
+
+        const ignore_distances_select = document.getElementById("ignore_distances_select");
+
+        var tileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: "<a href='https://developers.google.com/maps/documentation' target='_blank'>Google Map</a>",
+        });
+
+        //マップに追加
+        tileLayer.addTo(main_map);
+
+        //デバッグ
+        if (true) {
+            //位置設定
+            setView(34.70653432424858, 135.50369152261842, 12);
+        }
+
+
+        //マップを移動する
+        function setView(latitude, longitude, zoom = main_map.getZoom()) {
+            //マップ設定
+            main_map.setView([latitude, longitude], zoom);
+        }
+
+        //ピン一覧
+        let map_pins = {}
+        let selectid = "";
+
+        const addpin_btn = document.getElementById("addpin_btn");
+
+        addpin_btn.addEventListener("click", function (evt) {
+            const point = main_map.getCenter();
+
+            //ピンのIDを生成
+            const pinid = crypto.randomUUID();
+
+            //ピンを追加
+            console.log(point);
+            add_pin(pinid, point.lat, point.lng);
+        })
+
+        //ピンを追加する関数
+        function add_pin(pinid, lat, lng) {
+            //デフォルト距離
+            const distance = 3000;
+
+            //除外マーカー作成
+            const ignore_point = L.marker([lat, lng], {
+                draggable: true,
+            });
+
+            //範囲円を作成
+            const ignore_circle = L.circle([lat, lng], {
+                radius: distance,
+            })
+
+            //マーカーがドラッグされたとき
+            ignore_point.on("drag", function (evt) {
+                //マーカーを取得
+                var marker = evt.target;
+
+                //円を移動
+                ignore_circle.setLatLng(marker._latlng);
+            });
+
+            //マーカー登録
+            map_pins[pinid] = {
+                "circle": ignore_circle,
+                "point": ignore_point,
+                "distance": distance,
+            }
+
+            //マーカーがクリックされたとき
+            ignore_point.on("click", function (evt) {
+                //もともと選択されているか
+                if (selectid != "") {
+                    //青に戻す
+                    map_pins[selectid]["point"].setIcon(L.spriteIcon('blue'));
+                }
+
+                //選択状態にする
+                evt.target.setIcon(L.spriteIcon('red'));
+
+                //選択されたマーカーのIDを設定
+                selectid = evt.target.id;
+
+                //選択されたマーカーの距離を設定
+                ignore_distances_select.value = String(map_pins[selectid]["distance"]);
+            })
+
+            //マーカーのIDを設定
+            ignore_point.id = pinid;
+
+            //地図に追加
+            main_map.addLayer(ignore_circle);
+            main_map.addLayer(ignore_point);
+        }
+
+        //削除ボタン
+        const removepin_btn = document.getElementById("removepin_btn");
+
+        //削除ボタンを押したとき
+        removepin_btn.addEventListener("click", function (evt) {
+            //選択されていないとき
+            if (selectid == "") {
+                //戻る
+                return;
+            }
+
+            //選択されているマーカーを削除
+            main_map.removeLayer(map_pins[selectid]["point"]);
+
+            //マーカーに関連する円を削除
+            main_map.removeLayer(map_pins[selectid]["circle"]);
+
+            //登録を解除
+            delete map_pins[selectid];
+        })
+
+        //距離設定が更新されたとき
+        ignore_distances_select.addEventListener("change", function (evt) {
+            //選択されていなかったら戻る
+            if (selectid == "") {
+                return;
+            }
+
+            //マーカーが登録されていなかったら戻る
+            if (map_pins[selectid] == undefined) {
+                return;
+            }
+
+            //変更後の値を取得
+            const setval = Number(ignore_distances_select.value);
+
+            //登録情報を更新
+            map_pins[selectid]["distance"] = setval;
+
+            //円の半径を更新
+            map_pins[selectid]["circle"].setRadius(setval);
+        })
+    </script>
+</body>
+
+</html>

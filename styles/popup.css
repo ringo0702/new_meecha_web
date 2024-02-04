@@ -9,6 +9,7 @@
     opacity: 0;
     visibility: hidden;
 }
+
 .popup_inner {
     position: fixed;
     left: 13vw;

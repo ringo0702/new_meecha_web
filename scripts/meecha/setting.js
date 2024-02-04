@@ -74,6 +74,9 @@ const search_user_button = document.getElementById("search_user_button");
 //検索エリア
 const pupup_search_area = document.getElementById("pupup_search_area");
 
+//除外設定ボタン
+const ignore_setting_button = document.getElementById("ignore_setting_button");
+
 function init(evt) {
     //オブジェクト取得
     
@@ -462,3 +465,10 @@ function add_sent_request(requestid,name,uid) {
     //追加
     sended_request_show_area.appendChild(adddiv);
 }
+
+ignore_setting_button.addEventListener("click",function(evt){
+    //イベントキャンセル
+    evt.preventDefault();
+
+    ignore_map_area.style.display = "block";
+})

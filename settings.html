@@ -134,6 +134,40 @@
                     </div>
                 </div>
 
+                <div class="ignore_map_area" id="ignore_map_area">
+                    <div style="display: flex; justify-content: space-around;" class="ignore_map_controll">
+                        <button id="addpin_btn">ピン追加</button>
+                        <button id="removepin_btn">ピン削除</button>
+                        <select name="distances" class="ignore_distanec_select" id="ignore_distances_select">
+                            <option hidden>ピンを選択してください</option>
+                            <option value="5"> 5 m</option>
+                            <option value="10"> 10 m</option>
+                            <option value="50"> 50 m</option>
+                            <option value="250"> 250 m</option>
+                            <option value="500"> 500 m</option>
+                            <option value="1000">1000 m</option>
+                            <option value="1500">1500 m</option>
+                            <option value="2000">2000 m</option>
+                            <option value="2500">2500 m</option>
+                            <option value="3000">3000 m</option>
+                            <option value="3500">3500 m</option>
+                            <option value="4000">4000 m</option>
+                            <option value="4500">4500 m</option>
+                            <option value="5000">5000 m</option>
+                        </select>
+                
+                        <button id="savepin_btn">保存</button>
+                    </div>
+                    <div class="ignore_container">
+                        <div id="ignore_show_map" class="ignore_map"></div>
+                    </div>
+                </div>
+
+                <div class="password menu">
+                    <div class="setting_elements"><img src="./images/password.png" alt=""></div>
+                    <div><a href="" id="ignore_setting_button">通知しない範囲設定</a></div>
+                </div>
+
                 <div class="password menu">
                     <div class="setting_elements"><img src="./images/password.png" alt=""></div>
                     <div><a href="">パスワード変更</a></div>
@@ -145,8 +179,6 @@
                 </div>
             </div>
         </div>
-
-
     </main>
 
     <footer>
@@ -159,6 +191,7 @@
     <link rel="stylesheet" href="./styles/friend.css">
     <link rel="stylesheet" href="./styles/setting.css">
     <link rel="stylesheet" href="./styles/toastr.min.css">
+    <link rel="stylesheet" href="./styles/ignore_area.css">
 
     <script src="./scripts/config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -167,6 +200,7 @@
     <script src="./scripts/library/toastr.min.js"></script>
     <script src="./scripts/meecha/notify.js"></script>
     <script src="./scripts/leaflet/leaflet.js"></script>
+    <script src="./scripts/leaflet/leaflet.sprite.js"></script>
     <script src="./scripts/auth/util.js"></script>
     <script src="./scripts/utils/popup.js"></script>
     <script src="./scripts/meecha/friends.js"></script>
@@ -175,6 +209,7 @@
     <script src="./scripts/app/flutter_support.js"></script>
     <script src="./scripts/meecha/wsconn.js"></script>
     <script src="./scripts/meecha/setting.js"></script>
+    <script src="./scripts/meecha/ignore_map.js"></script>
 
     <script src="./scripts/loader.js"></script>
 </body>
