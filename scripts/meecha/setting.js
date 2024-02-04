@@ -518,3 +518,33 @@ ignore_setting_button.addEventListener("click",function(evt){
 
     ignore_map_area.style.visibility = "visible";
 })
+
+ws_event_div.addEventListener(ws_event_key, function (evt) {
+    const payload = evt.detail["Payload"];
+
+    switch (evt.detail["Command"]) {
+        case "near_friend": {        
+            if (payload["is_first"] && !payload["is_self"]) {
+                toastr.info(`${payload["unane"]}さんが近くにいます`, "通知",{
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": true,
+                    "progressBar": true,
+                    "positionClass": "toast-top-center",
+                    "preventDuplicates": false,
+                    "showDuration": "300",
+                    "timeOut": "0",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                });
+            }
+
+            break;
+        }
+        case "stop_notify": {
+            break;
+        }
+    };
+})

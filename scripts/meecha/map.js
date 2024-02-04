@@ -54,15 +54,8 @@ function change_location(latitude, longitude) {
 
             myself_marker = L.marker([latitude, longitude], {
                 icon: myicon,
-                draggable: true,
-                autoPan: true
             }).bindPopup('<p>あなたの現在地</p>');
 
-            myself_marker.on("drag", function(e) {
-                var marker = e.target;
-                var position = marker.getLatLng();
-                console.log(position);
-            });
             main_map.addLayer(myself_marker);
         } else {
             //マーカーがあったら移動する
