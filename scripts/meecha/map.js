@@ -1,5 +1,5 @@
 //自動追尾設定
-let auto_tracking = true;
+let auto_tracking = false;
 
 //マップ設定
 const main_map = L.map('show_map', { zoomControl: false })
