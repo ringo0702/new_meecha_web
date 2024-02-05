@@ -1,7 +1,7 @@
 //設定ファイル
 
 //サーバIP
-const ServerIp = "100.111.29.70:12222";
+const ServerIp = "wao2server.tail6cf7b.ts.net/meecha";
 
 //サーバURL
 const server_url = "https://" + ServerIp;

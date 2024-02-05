@@ -19,13 +19,6 @@ var tileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z
 //マップに追加
 tileLayer.addTo(main_map);
 
-//デバッグ
-if (debug) {
-    //位置設定
-    setView(34.70653432424858, 135.50369152261842, 20);
-}
-
-
 //マップを移動する
 function setView(latitude, longitude, zoom = main_map.getZoom()) {
     //マップ設定
@@ -62,10 +55,7 @@ function change_location(latitude, longitude) {
             myself_marker.setLatLng([latitude, longitude]);
         }
 
-        //トラッキング
-        if (auto_tracking) {
-            setView(latitude, longitude);
-        }
+        
     } catch (err) {
         console.log(err);
     }

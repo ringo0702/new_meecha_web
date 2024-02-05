@@ -17,12 +17,7 @@ var tileLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z
 //マップに追加
 tileLayer.addTo(ignore_map);
 
-//デバッグ
-if (true) {
-    //位置設定
-    setView(34.70653432424858, 135.50369152261842, 12);
-}
-
+setView(34.70653432424858, 135.50369152261842, 12);
 
 //マップを移動する
 function setView(latitude, longitude, zoom = ignore_map.getZoom()) {
