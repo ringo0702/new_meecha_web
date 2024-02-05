@@ -9,7 +9,8 @@ body {
 }
 
 header{
-    position: fixed;
+    display: flex;
+    height: 8vh;
     z-index: 100;
 }
 
@@ -18,12 +19,8 @@ header p{
 }
 
 #rogo_bg{
-    border-radius: 40px;
-    background-color: rgba(219, 255, 243, 0.663);
-    padding: 10px 10px 7px;
-    margin-top: 3.5vh;
+    margin-top: 4.5vh;
     margin-left: 7vw;
-    z-index: 1;
 }
 
 #rogo {
@@ -35,7 +32,7 @@ header p{
     border-radius: 40px;
     position: fixed;
     width: 13vw;
-    top: 3vh;
+    top: 2.5vh;
     right: 7vw;
     z-index: 1;
 }
@@ -64,9 +61,6 @@ header p{
     border-radius: 50%;
 }
 
-
-
-
 .user_search_area {
     display: flex;
     justify-content: center;
@@ -74,12 +68,16 @@ header p{
 
 .map_area {
     width: 100vw;
-    height: 100vh;
+    height: 96vh;
     z-index: 1;
 }
 
-footer {
-    width: 100%;
+#pin{
+    position: fixed;
+    right: 6vw;
+    bottom: 3vh;
+    width: 16vw;
+    z-index: 1;
 }
 
 .popover {
