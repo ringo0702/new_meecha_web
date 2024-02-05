@@ -58,9 +58,7 @@ function error(err) {
 
 //位置情報監視設定
 options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 5000
+    enableHighAccuracy: false,
 };
 
 //位置情報の監視開始

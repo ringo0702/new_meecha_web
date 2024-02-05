@@ -24,6 +24,27 @@ async function get_userinfo() {
 
         //ユーザid設定
         UserID = userinfo["userid"];
+
+        navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    //成功時のコールバック関数
+                    //位置情報
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    setView(latitude, longitude);
+                },
+                (error)　=> {
+                    //失敗時のコールバック関数
+                    console.log(error);
+                },
+                //位置情報監視設定
+                {
+                    enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: 5000
+                }
+        );
     } catch (error) {
         //エラー処理
         console.log(error);
@@ -39,7 +60,7 @@ get_userinfo();
 //フレンドのピン
 let friend_pins = {};
 
-function set_marker(uid,name, latitude, longitude) {
+function set_marker(uid, name, latitude, longitude) {
     //既に存在する場合移動させる
     if (friend_pins[uid]) {
         friend_pins[uid].setLatLng([latitude, longitude]);
@@ -68,9 +89,9 @@ ws_event_div.addEventListener(ws_event_key, function (evt) {
     const payload = evt.detail["Payload"];
 
     switch (evt.detail["Command"]) {
-        case "near_friend": {        
+        case "near_friend": {
             if (payload["is_first"] && !payload["is_self"]) {
-                toastr.info(`${payload["unane"]}さんが近くにいます`, "通知",{
+                toastr.info(`${payload["unane"]}さんが近くにいます`, "通知", {
                     "closeButton": false,
                     "debug": false,
                     "newestOnTop": true,
@@ -98,7 +119,7 @@ ws_event_div.addEventListener(ws_event_key, function (evt) {
             } catch (error) {
                 console.log(error);
             }
-                
+
             //登録を解除
             delete friend_pins[userid];
             break;
