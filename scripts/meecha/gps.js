@@ -16,6 +16,8 @@ const event_name = "geo_change";
 const event_elem = document.createElement("div");
 
 function call_event(latitude,longitude) {
+    myself_position[0] = latitude;
+    myself_position[1] = longitude;
     //イベント作成
     const event = new CustomEvent(event_name, {
         detail: {
