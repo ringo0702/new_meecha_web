@@ -1,8 +1,4 @@
 
-
-//ユーザアイコン
-const usericon = document.getElementById("usericon");
-
 //ユーザ情報取得処理
 async function get_userinfo() {
     try {
@@ -18,9 +14,6 @@ async function get_userinfo() {
 
         //ユーザデータ取得
         const userinfo = await req.json();
-
-        //アイコンURL
-        usericon.src = GetIconUrl(userinfo["userid"]);
 
         //ユーザid設定
         UserID = userinfo["userid"];
@@ -127,3 +120,11 @@ ws_event_div.addEventListener(ws_event_key, function (evt) {
     };
 })
 
+//戻るピン
+const pin = document.getElementById("pin");
+
+//ピン押したとき
+pin.addEventListener("click", () => {
+    //マップ設定
+    setView(myself_position[0], myself_position[1]);
+})
