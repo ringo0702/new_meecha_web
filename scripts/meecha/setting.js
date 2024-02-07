@@ -88,6 +88,9 @@ const ignore_setting_button = document.getElementById("ignore_setting_button");
 
 function init(evt) {
     //オブジェクト取得
+    show_pupup_search_area(null);  
+    search_value.value = "mattuu";
+    search_user(null);
     
     //イベント関連
     async function search_user(evt){
@@ -282,14 +285,13 @@ async function logout(evt) {
 logout_link.addEventListener("click",logout);
 
 function add_search_result(uid,name) {
-    //検索結果を表示
     const result_div = document.createElement("div");
     result_div.classList.add("search_result");
     
     const dirty = `
-        <img class="search_result_icon" src="${GetIconUrl(uid)}">
-        <p class="search_result_name">${name}</p>
-        <button class="send_request_button" id="${uid}">送信</button>
+        <img class="search_result_icon result" src="${GetIconUrl(uid)}">
+        <p class="search_result_name result">${name}</p>
+        <button class="send_request_button result" id="${uid}">送信</button>
     `
 
     const clean = DOMPurify.sanitize(dirty, { USE_PROFILES: { html: true } });
@@ -315,7 +317,6 @@ function add_search_result(uid,name) {
         //通知表示
         toastr["success"]("フレンドリクエストを送信しました");
     })
-
     search_result_area.appendChild(result_div);
 }
 

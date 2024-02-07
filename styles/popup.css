@@ -12,7 +12,7 @@
 
 .popup_inner {
     position: fixed;
-    left: 13vw;
+    left: 10vw;
     top: 15vh;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .popover{
-    width: 70vw;
+    width: 80vw;
     height: 65vh;
     background-color: #e9fef7ef;
     border: 2px solid #5da38ccc;
