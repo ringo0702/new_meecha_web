@@ -22,6 +22,7 @@
     </header>
     <main>
         <div class="user_info">
+            <input type="file" accept="image/*" id="icon_select" style="display: none;">
             <div class="icon_hover"><img src="./images/icon.jpg" alt="" style="display: none;" id="user_icon"></div>
             <p id="user_name"></p>
         </div>
@@ -138,7 +139,7 @@
                     <div style="display: flex; justify-content: space-around;" class="ignore_map_controll">
                         <button id="addpin_btn"><img id="pin" class="pin" src="./images/pin.png" alt=""></button>
                         <button id="removepin_btn"><img id="nopin" class="pin" src="./images/nopin.png" alt=""></button>
-                        <select name="distances" class="distanec_select" id="ignore_distances_select">
+                        <select name="distances" class="ignore_distanec_select" id="ignore_distances_select">
                             <option hidden>ピンを選択してください</option>
                             <option value="5"> 5 m</option>
                             <option value="10"> 10 m</option>
@@ -166,11 +167,6 @@
                 <div class="password menu">
                     <div class="setting_elements"><img src="./images/nodistance.png" alt=""></div>
                     <div><a href="" id="ignore_setting_button">通知しない範囲</a></div>
-                </div>
-
-                <div class="password menu">
-                    <div class="setting_elements"><img src="./images/password.png" alt=""></div>
-                    <div><a href="">パスワード変更</a></div>
                 </div>
 
                 <div class="logout menu">

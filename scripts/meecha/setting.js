@@ -548,3 +548,28 @@ ws_event_div.addEventListener(ws_event_key, function (evt) {
         }
     };
 })
+
+//アイコン選択
+const icon_select = document.getElementById("icon_select");
+
+icon_select.addEventListener("change",async function(evt){
+    const updata = new FormData();
+    updata.append("file",icon_select.files[0]);
+
+    const icon_post = await AccessPost(server_url + "/upicon",updata,{},false);
+
+    if (icon_post.status != 200) {
+        toastr["error"]("アイコンの更新に失敗しました");
+        return;
+    }
+
+    //アイコンを更新
+    user_icon.src = GetIconUrl(UserID);
+})
+
+user_icon.addEventListener("click",function(evt){
+    //イベントキャンセル
+    evt.preventDefault();
+
+    icon_select.click();
+})
