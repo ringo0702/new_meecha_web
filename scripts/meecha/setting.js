@@ -168,7 +168,7 @@ function refresh_recved_request() {
     get_recved_requests().then((result) => {
         //受信済みリクエストを表示
         for (let requestid in result) {
-            add_recved_request(requestid,result[requestid].name);
+            add_recved_request(requestid,result[requestid].aite_name);
         }
     });
 }
