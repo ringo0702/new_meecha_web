@@ -19,7 +19,7 @@ header p{
 }
 
 #rogo_bg{
-    margin-top: 4.5vh;
+    margin-top: 3vh;
     margin-left: 7vw;
 }
 
@@ -32,7 +32,7 @@ header p{
     border-radius: 40px;
     position: fixed;
     width: 13vw;
-    top: 2.5vh;
+    top: 1.5vh;
     right: 7vw;
     z-index: 1;
 }
@@ -68,7 +68,7 @@ header p{
 
 .map_area {
     width: 100vw;
-    height: 96vh;
+    height: 92vh;
     z-index: 1;
 }
 
