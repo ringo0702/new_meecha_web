@@ -34,8 +34,6 @@ async function get_userinfo() {
                 //位置情報監視設定
                 {
                     enableHighAccuracy: false,
-                    timeout: 5000,
-                    maximumAge: 5000
                 }
         );
     } catch (error) {
