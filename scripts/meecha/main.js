@@ -28,14 +28,19 @@ async function get_userinfo() {
                 console.log(latitude, longitude);
 
                 change_location(latitude, longitude);
+
+                start_gps(null);
             },
             (error) => {
                 //失敗時のコールバック関数
                 console.log(error);
+                start_gps(null);
             },
             //位置情報監視設定
             {}
         );
+
+        
     } catch (error) {
         //エラー処理
         console.log(error);

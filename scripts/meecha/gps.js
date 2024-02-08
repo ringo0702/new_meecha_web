@@ -59,13 +59,9 @@ function error(err) {
 }
 
 //位置情報監視設定
-options = {
-    enableHighAccuracy: false,
-};
+options = {};
 
 //位置情報の監視開始
 function start_gps(evt) {
     watchid = navigator.geolocation.watchPosition(success, error, options);
 }
-
-start_gps(null);
