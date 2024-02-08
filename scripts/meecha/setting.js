@@ -87,11 +87,6 @@ const pupup_search_area = document.getElementById("pupup_search_area");
 const ignore_setting_button = document.getElementById("ignore_setting_button");
 
 function init(evt) {
-    //オブジェクト取得
-    show_pupup_search_area(null);  
-    search_value.value = "mattuu";
-    search_user(null);
-    
     //イベント関連
     async function search_user(evt){
         //検索
@@ -532,7 +527,7 @@ ws_event_div.addEventListener(ws_event_key, function (evt) {
                     "newestOnTop": true,
                     "progressBar": true,
                     "positionClass": "toast-top-center",
-                    "preventDuplicates": false,
+                    "preventDuplicates": true,
                     "showDuration": "300",
                     "timeOut": "0",
                     "showEasing": "swing",

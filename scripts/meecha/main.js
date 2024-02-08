@@ -90,7 +90,7 @@ ws_event_div.addEventListener(ws_event_key, function (evt) {
                     "newestOnTop": true,
                     "progressBar": true,
                     "positionClass": "toast-top-center",
-                    "preventDuplicates": false,
+                    "preventDuplicates": true,
                     "showDuration": "300",
                     "timeOut": "0",
                     "showEasing": "swing",
