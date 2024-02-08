@@ -19,22 +19,20 @@ async function get_userinfo() {
         UserID = userinfo["userid"];
 
         navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    //成功時のコールバック関数
-                    //位置情報
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+            (position) => {
+                //成功時のコールバック関数
+                //位置情報
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
 
-                    setView(latitude, longitude);
-                },
-                (error)　=> {
-                    //失敗時のコールバック関数
-                    console.log(error);
-                },
-                //位置情報監視設定
-                {
-                    enableHighAccuracy: false,
-                }
+                change_location(latitude, longitude);
+            },
+            (error) => {
+                //失敗時のコールバック関数
+                console.log(error);
+            },
+            //位置情報監視設定
+            {}
         );
     } catch (error) {
         //エラー処理
