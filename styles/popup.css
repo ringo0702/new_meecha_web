@@ -28,5 +28,6 @@
     border: 2px solid #5da38ccc;
     border-radius: 10px;
     text-align: center;
+    overflow: scroll;
 }
 
