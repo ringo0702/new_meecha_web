@@ -86,6 +86,15 @@ const pupup_search_area = document.getElementById("pupup_search_area");
 //除外設定ボタン
 const ignore_setting_button = document.getElementById("ignore_setting_button");
 
+//フレンド取得中表示
+const friend_log_area = document.getElementById("friend_log_area");
+
+//送信済み取得表示
+const sended_log_area = document.getElementById("sended_log_area");
+
+//受信済み取得表示
+const recved_log_area = document.getElementById("recved_log_area");
+
 function init(evt) {
     //イベント関連
     async function search_user(evt){
@@ -162,12 +171,15 @@ function clear_friend_search(evt) {
 function refresh_recved_request() {
     //受信済みリクエストをリセット
     clear_child_elems(recved_request_show_area);
+    recved_log_area.innerText = "データを取得しています";
 
     get_recved_requests().then((result) => {
         //受信済みリクエストを表示
         for (let requestid in result) {
             add_recved_request(requestid,result[requestid].aite_name);
         }
+
+        recved_log_area.innerText = "";
     });
 }
 
@@ -182,12 +194,15 @@ function get_friend_request(evt) {
 //送信済みフレンドリクエストを取得する
 function refresh_sent() {
     clear_child_elems(sended_request_show_area);
+    sended_log_area.innerText = "データを取得しています";
 
     get_sent_requests().then((result) => {
         //送信済みリクエストを表示
         for (let requestid in result) {
             add_sent_request(requestid,result[requestid].name,result[requestid].uid);
         }
+
+        sended_log_area.innerText = "";
     });
 }
 //送信済みフレンドリクエストを取得する
@@ -198,9 +213,11 @@ async function get_sended_friend_request(evt) {
 }
 
 function refresh_friend() {
-    get_all_friends().then((result) => {
-        clear_child_elems(friend_show_area);
+    clear_child_elems(friend_show_area);
+    //取得中表示にする
+    friend_log_area.innerText = "データを取得しています";
 
+    get_all_friends().then((result) => {
         for (let key in result) {
             console.log(result[key]);
             //追加するdiv
@@ -240,6 +257,9 @@ function refresh_friend() {
             //追加
             friends_show_area.appendChild(adddiv);
         }
+
+        //取得中表示を消す
+        friend_log_area.innerText = ""
     });
 }
 
